@@ -14,6 +14,20 @@
 
 ---
 
+## Performance Optimization Examples
+
+This repository now includes comprehensive performance optimization examples:
+
+- **[README_PERFORMANCE.md](README_PERFORMANCE.md)** - Quick start guide
+- **[PERFORMANCE_GUIDE.md](PERFORMANCE_GUIDE.md)** - Detailed optimization guide
+- **slow_code_examples.py** - Python examples with 8 common anti-patterns
+- **slow_code_examples.R** - R examples with 10 common anti-patterns
+- **test_performance_examples.py** - Test suite for validation
+
+Run the examples to see 10x to 2700x performance improvements!
+
+---
+
 המצגת זמינה בקישור:
 
 [https://docs.google.com/presentation/d/1Wuf9cN02r76xBFqznv7P_O3lvGmzgSoAKvLDct4gswI/edit?usp=sharing](https://docs.google.com/presentation/d/1Wuf9cN02r76xBFqznv7P_O3lvGmzgSoAKvLDct4gswI/edit?usp=sharing)
