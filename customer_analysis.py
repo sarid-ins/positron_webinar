@@ -1,100 +1,52 @@
 """
-Customer Analysis Script - Contains Duplicated Code Patterns
-This script analyzes customer data with duplicated validation and processing logic.
+Customer Analysis Script - Refactored Version
+This script analyzes customer data using shared utility functions.
 """
 
 import pandas as pd
-import numpy as np
+from data_utils import load_and_validate_customers
+from statistics_utils import calculate_age_statistics
+from visualization_utils import print_customer_statistics
+
+
+def process_customers(customer_type, input_file, output_file):
+    """
+    Process and validate customer data.
+    
+    Args:
+        customer_type: Type of customer (e.g., "New", "Returning", "VIP")
+        input_file: Path to input CSV file
+        output_file: Path to output CSV file
+        
+    Returns:
+        Validated DataFrame
+    """
+    valid_df = load_and_validate_customers(input_file)
+    age_stats = calculate_age_statistics(valid_df)
+    print_customer_statistics(customer_type, len(valid_df), age_stats)
+    valid_df.to_csv(output_file, index=False)
+    return valid_df
 
 
 def process_new_customers():
     """Process and validate new customer data."""
-    customers = pd.read_csv('data/new_customers.csv')
-    
-    # Validate email
-    valid_customers = []
-    for idx, row in customers.iterrows():
-        email = row['email']
-        if '@' in email and '.' in email:
-            if len(email) > 5:
-                valid_customers.append(row)
-    
-    valid_df = pd.DataFrame(valid_customers)
-    
-    # Calculate age statistics
-    avg_age = valid_df['age'].mean()
-    min_age = valid_df['age'].min()
-    max_age = valid_df['age'].max()
-    
-    print(f"New Customers Statistics:")
-    print(f"Total Valid: {len(valid_df)}")
-    print(f"Average Age: {avg_age:.1f}")
-    print(f"Age Range: {min_age} - {max_age}")
-    
-    # Save cleaned data
-    valid_df.to_csv('outputs/new_customers_clean.csv', index=False)
-    
-    return valid_df
+    return process_customers('New', 
+                            'data/new_customers.csv', 
+                            'outputs/new_customers_clean.csv')
 
 
 def process_returning_customers():
     """Process and validate returning customer data."""
-    customers = pd.read_csv('data/returning_customers.csv')
-    
-    # Validate email
-    valid_customers = []
-    for idx, row in customers.iterrows():
-        email = row['email']
-        if '@' in email and '.' in email:
-            if len(email) > 5:
-                valid_customers.append(row)
-    
-    valid_df = pd.DataFrame(valid_customers)
-    
-    # Calculate age statistics
-    avg_age = valid_df['age'].mean()
-    min_age = valid_df['age'].min()
-    max_age = valid_df['age'].max()
-    
-    print(f"Returning Customers Statistics:")
-    print(f"Total Valid: {len(valid_df)}")
-    print(f"Average Age: {avg_age:.1f}")
-    print(f"Age Range: {min_age} - {max_age}")
-    
-    # Save cleaned data
-    valid_df.to_csv('outputs/returning_customers_clean.csv', index=False)
-    
-    return valid_df
+    return process_customers('Returning', 
+                            'data/returning_customers.csv', 
+                            'outputs/returning_customers_clean.csv')
 
 
 def process_vip_customers():
     """Process and validate VIP customer data."""
-    customers = pd.read_csv('data/vip_customers.csv')
-    
-    # Validate email
-    valid_customers = []
-    for idx, row in customers.iterrows():
-        email = row['email']
-        if '@' in email and '.' in email:
-            if len(email) > 5:
-                valid_customers.append(row)
-    
-    valid_df = pd.DataFrame(valid_customers)
-    
-    # Calculate age statistics
-    avg_age = valid_df['age'].mean()
-    min_age = valid_df['age'].min()
-    max_age = valid_df['age'].max()
-    
-    print(f"VIP Customers Statistics:")
-    print(f"Total Valid: {len(valid_df)}")
-    print(f"Average Age: {avg_age:.1f}")
-    print(f"Age Range: {min_age} - {max_age}")
-    
-    # Save cleaned data
-    valid_df.to_csv('outputs/vip_customers_clean.csv', index=False)
-    
-    return valid_df
+    return process_customers('VIP', 
+                            'data/vip_customers.csv', 
+                            'outputs/vip_customers_clean.csv')
 
 
 def generate_customer_report(customer_type):

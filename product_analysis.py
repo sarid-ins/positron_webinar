@@ -1,106 +1,48 @@
 """
-Product Analysis Script - Contains Duplicated Code Patterns
-This script analyzes product performance with duplicated calculation logic.
+Product Analysis Script - Refactored Version
+This script analyzes product performance using shared utility functions.
 """
 
 import pandas as pd
-import numpy as np
+from statistics_utils import calculate_product_metrics, get_summary_metrics
+from visualization_utils import print_product_metrics
+
+
+def calculate_category_metrics(category_name, data_file):
+    """
+    Calculate performance metrics for a product category.
+    
+    Args:
+        category_name: Name of the product category
+        data_file: Path to the CSV file containing product data
+        
+    Returns:
+        DataFrame with calculated metrics
+    """
+    products = pd.read_csv(data_file)
+    products = calculate_product_metrics(products)
+    metrics = get_summary_metrics(products)
+    top_products = products.nlargest(5, 'profit')
+    print_product_metrics(category_name, metrics, top_products)
+    return products
 
 
 def calculate_electronics_metrics():
     """Calculate performance metrics for electronics products."""
-    products = pd.read_csv('data/electronics_products.csv')
-    
-    # Calculate revenue
-    products['revenue'] = products['quantity_sold'] * products['price']
-    
-    # Calculate profit
-    products['profit'] = products['revenue'] - (products['quantity_sold'] * products['cost'])
-    
-    # Calculate profit margin
-    products['profit_margin'] = (products['profit'] / products['revenue']) * 100
-    
-    # Summary statistics
-    total_revenue = products['revenue'].sum()
-    total_profit = products['profit'].sum()
-    avg_margin = products['profit_margin'].mean()
-    
-    print("Electronics Category:")
-    print(f"  Total Revenue: ${total_revenue:,.2f}")
-    print(f"  Total Profit: ${total_profit:,.2f}")
-    print(f"  Avg Profit Margin: {avg_margin:.2f}%")
-    
-    # Find top performers
-    top_products = products.nlargest(5, 'profit')
-    print("  Top 5 Products by Profit:")
-    for idx, row in top_products.iterrows():
-        print(f"    - {row['product_name']}: ${row['profit']:,.2f}")
-    
-    return products
+    return calculate_category_metrics('Electronics', 
+                                     'data/electronics_products.csv')
 
 
 def calculate_clothing_metrics():
     """Calculate performance metrics for clothing products."""
-    products = pd.read_csv('data/clothing_products.csv')
-    
-    # Calculate revenue
-    products['revenue'] = products['quantity_sold'] * products['price']
-    
-    # Calculate profit
-    products['profit'] = products['revenue'] - (products['quantity_sold'] * products['cost'])
-    
-    # Calculate profit margin
-    products['profit_margin'] = (products['profit'] / products['revenue']) * 100
-    
-    # Summary statistics
-    total_revenue = products['revenue'].sum()
-    total_profit = products['profit'].sum()
-    avg_margin = products['profit_margin'].mean()
-    
-    print("Clothing Category:")
-    print(f"  Total Revenue: ${total_revenue:,.2f}")
-    print(f"  Total Profit: ${total_profit:,.2f}")
-    print(f"  Avg Profit Margin: {avg_margin:.2f}%")
-    
-    # Find top performers
-    top_products = products.nlargest(5, 'profit')
-    print("  Top 5 Products by Profit:")
-    for idx, row in top_products.iterrows():
-        print(f"    - {row['product_name']}: ${row['profit']:,.2f}")
-    
-    return products
+    return calculate_category_metrics('Clothing', 
+                                     'data/clothing_products.csv')
 
 
 def calculate_home_goods_metrics():
     """Calculate performance metrics for home goods products."""
-    products = pd.read_csv('data/home_goods_products.csv')
-    
-    # Calculate revenue
-    products['revenue'] = products['quantity_sold'] * products['price']
-    
-    # Calculate profit
-    products['profit'] = products['revenue'] - (products['quantity_sold'] * products['cost'])
-    
-    # Calculate profit margin
-    products['profit_margin'] = (products['profit'] / products['revenue']) * 100
-    
-    # Summary statistics
-    total_revenue = products['revenue'].sum()
-    total_profit = products['profit'].sum()
-    avg_margin = products['profit_margin'].mean()
-    
-    print("Home Goods Category:")
-    print(f"  Total Revenue: ${total_revenue:,.2f}")
-    print(f"  Total Profit: ${total_profit:,.2f}")
-    print(f"  Avg Profit Margin: {avg_margin:.2f}%")
-    
-    # Find top performers
-    top_products = products.nlargest(5, 'profit')
-    print("  Top 5 Products by Profit:")
-    for idx, row in top_products.iterrows():
-        print(f"    - {row['product_name']}: ${row['profit']:,.2f}")
-    
-    return products
+    return calculate_category_metrics('Home Goods', 
+                                     'data/home_goods_products.csv')
 
 
 if __name__ == '__main__':
