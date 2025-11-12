@@ -63,3 +63,10 @@ _render/
 *.utf8.md
 *.knit.md
 readme.html
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python

@@ -46,8 +46,10 @@ def build_large_string_slow(items: List[str]) -> str:
     Time complexity: O(n²)
     """
     result = ""
-    for item in items:
-        result += item + ", "
+    for i, item in enumerate(items):
+        if i > 0:
+            result += ", "
+        result += item
     return result
 
 
