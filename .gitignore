@@ -63,3 +63,5 @@ _render/
 *.utf8.md
 *.knit.md
 readme.html
+
+tmp_plots/
